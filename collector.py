@@ -171,7 +171,8 @@ def main():
         # Handle grid management commands
         if args.list_grids:
             grids = get_grids(conn)
-            print("Configured grids:", ", ".join(grids))
+            print(f"Database: {db_path}")
+            print("Configured grids:", ", ".join(grids) if grids else "(none)")
             return
 
         if args.add_grid:
@@ -180,8 +181,10 @@ def main():
             if new_grid not in grids:
                 grids.append(new_grid)
                 set_grids(conn, grids)
+                print(f"Database: {db_path}")
                 print(f"Added grid {new_grid}. Configured grids: {', '.join(grids)}")
             else:
+                print(f"Database: {db_path}")
                 print(f"Grid {new_grid} already configured.")
             return
 
@@ -191,8 +194,10 @@ def main():
             if rem_grid in grids:
                 grids.remove(rem_grid)
                 set_grids(conn, grids)
-                print(f"Removed grid {rem_grid}. Configured grids: {', '.join(grids)}")
+                print(f"Database: {db_path}")
+                print(f"Removed grid {rem_grid}. Configured grids: {', '.join(grids) if grids else '(none)'}")
             else:
+                print(f"Database: {db_path}")
                 print(f"Grid {rem_grid} not found in configured grids.")
             return
 
