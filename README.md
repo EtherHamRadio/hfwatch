@@ -45,8 +45,8 @@ No amateur radio license is required to run HFWatch. You do not need a callsign 
 ## Quick install
 
 ```bash
-git clone https://github.com/etherham/etherham-hfwatch.git
-cd etherham-hfwatch
+git clone https://github.com/EtherHamRadio/hfwatch.git
+cd hfwatch
 chmod +x install.sh
 sudo ./install.sh
 ```
@@ -74,8 +74,8 @@ sudo ./install.sh \
 ## Manual / development install
 
 ```bash
-git clone https://github.com/etherham/etherham-hfwatch.git
-cd etherham-hfwatch
+git clone https://github.com/EtherHamRadio/hfwatch.git
+cd hfwatch
 
 python3 -m venv venv
 source venv/bin/activate
@@ -98,15 +98,14 @@ Open `http://localhost:5000` in a browser.
 ## File layout
 
 ```
-etherham-hfwatch/
+hfwatch/
 ├── db.py               Band map, schema, SQLite helpers, migration logic
 ├── collector.py        PSK Reporter fetcher — run via systemd timer
 ├── query.py            Heatmap, weekly average, time-series, and stats queries
 ├── server.py           Flask dashboard and JSON API
 ├── prune.py            Deletes spots older than prune_days (called by systemd timer)
 ├── requirements.txt    Python dependencies (flask, requests)
-├── install.sh          One-shot installer for Debian/Pi OS
-└── systemd-units.conf  Reference copies of all unit files
+└── install.sh          One-shot installer for Debian/Pi OS
 ```
 
 ---
@@ -145,6 +144,29 @@ systemctl list-timers hfwatch*
 
 HFWatch can collect data for more than one Maidenhead grid square. The dashboard lets you switch between grids that have data; collection targets are managed from the command line.
 
+**Important:** If you installed with `install.sh`, the running service uses the database at `/var/lib/hfwatch/hfwatch.db` — not any local clone of the repo. Grid management commands must be run against that installed database, or they will have no effect on what the service collects.
+
+### After install (service running)
+
+```bash
+PYTHON=/opt/hfwatch/venv/bin/python3
+COLLECTOR=/opt/hfwatch/collector.py
+DB=/var/lib/hfwatch/hfwatch.db
+
+# See what grids are currently configured
+sudo -u pi $PYTHON $COLLECTOR --db $DB --list-grids
+
+# Add a grid
+sudo -u pi $PYTHON $COLLECTOR --db $DB --add-grid IO85
+
+# Remove a grid
+sudo -u pi $PYTHON $COLLECTOR --db $DB --remove-grid IO85
+```
+
+Replace `pi` with the user you specified during install if different. No restart is needed — the collector timer picks up the new grid configuration on its next 15-minute run. A newly added grid will not appear in the dashboard dropdown until after its first collection run completes.
+
+### Manual / development install
+
 ```bash
 # See what grids are currently configured
 python3 collector.py --list-grids
@@ -158,8 +180,6 @@ python3 collector.py --remove-grid IO85
 # One-off fetch for a specific grid (does not change config)
 python3 collector.py --grid EM73
 ```
-
-A newly added grid will not appear in the dashboard dropdown until after its first collection run completes (data must be present in the database).
 
 Grid squares can be 4-character (e.g. `CN87`) or 6-character (e.g. `CN87ul`). PSK Reporter accepts both.
 
@@ -261,4 +281,4 @@ MIT License. See [LICENSE](LICENSE) for full text.
 
 HFWatch was built as a personal tool for band-opening planning from grid square CN87 (Pacific Northwest). It grew out of the observation that existing tools show *current* activity but nothing that answers "when is 17 meters usually open in the morning?" The heatmap view fills that gap using accumulated data from your own location.
 
-Source and discussion at [EtherHam.com](https://etherham.com).
+Source and discussion at [EtherHam.com](https://etherham.com). Code at [github.com/EtherHamRadio/hfwatch](https://github.com/EtherHamRadio/hfwatch).
