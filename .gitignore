@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Backup files (created during live editing)
+*.bak
+*.20[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+*~
