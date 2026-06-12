@@ -47,8 +47,8 @@ No amateur radio license is required to run HFWatch. You do not need a callsign 
 ## Quick install
 
 ```bash
-git clone https://github.com/etherham/etherham-hfwatch.git
-cd etherham-hfwatch
+git clone https://github.com/EtherHamRadio/hfwatch.git
+cd hfwatch
 chmod +x install.sh
 sudo ./install.sh
 ```
@@ -76,8 +76,8 @@ sudo ./install.sh \
 ## Manual / development install
 
 ```bash
-git clone https://github.com/etherham/etherham-hfwatch.git
-cd etherham-hfwatch
+git clone https://github.com/EtherHamRadio/hfwatch.git
+cd hfwatch
 
 python3 -m venv venv
 source venv/bin/activate
@@ -100,7 +100,7 @@ Open `http://localhost:5000` in a browser.
 ## File layout
 
 ```
-etherham-hfwatch/
+hfwatch/
 ├── db.py               Band map, schema, SQLite helpers, migration logic
 ├── collector.py        PSK Reporter fetcher — run via systemd timer
 ├── query.py            Heatmap, weekly average, time-series, and stats queries
