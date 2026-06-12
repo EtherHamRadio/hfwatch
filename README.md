@@ -6,6 +6,8 @@ The core view is a **band × UTC-hour heatmap**: rows are HF bands (160m through
 
 Built with Python, Flask, and SQLite. Runs well on a Raspberry Pi or any Debian/Ubuntu box.
 
+<img width="1739" height="1125" alt="HFWatch" src="https://github.com/user-attachments/assets/6157d8de-4e04-40ce-8a24-daf657538b6e" />
+
 ---
 
 ## Features
